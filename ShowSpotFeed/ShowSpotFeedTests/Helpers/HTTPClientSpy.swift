@@ -12,5 +12,7 @@ class HTTPClientSpy: HTTPClient {
     
     var requestedURLs: [URL] = []
     
-    func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {}
+    func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
+        requestedURLs.append(url)
+    }
 }
