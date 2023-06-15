@@ -44,9 +44,10 @@
 
 /* Begin PBXFileReference section */
 		D50036442A3B925900B0A18F /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
-		D50036482A3B949500B0A18F /* ShowSpotFeed.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = ShowSpotFeed.xctestplan; path = ShowSpotFeed/ShowSpotFeed.xctestplan; sourceTree = SOURCE_ROOT; };
+		D50036482A3B949500B0A18F /* ShowSpotFeed.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ShowSpotFeed.xctestplan; sourceTree = SOURCE_ROOT; };
 		D500364D2A3B95CF00B0A18F /* ShowSpotFeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShowSpotFeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D500364F2A3B95CF00B0A18F /* ShowSpotFeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSpotFeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
+		D50036582A3BA0DD00B0A18F /* CI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI.xctestplan; sourceTree = "<group>"; };
 		D5DC4E712A3B4216005FF7B9 /* ShowSpotFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShowSpotFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5DC4E752A3B4216005FF7B9 /* ShowSpotFeed.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ShowSpotFeed.docc; sourceTree = "<group>"; };
 		D5DC4E7B2A3B4216005FF7B9 /* ShowSpotFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShowSpotFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +101,8 @@
 		D5DC4E672A3B4216005FF7B9 = {
 			isa = PBXGroup;
 			children = (
+				D50036482A3B949500B0A18F /* ShowSpotFeed.xctestplan */,
+				D50036582A3BA0DD00B0A18F /* CI.xctestplan */,
 				D5DC4E732A3B4216005FF7B9 /* ShowSpotFeed */,
 				D5DC4E7F2A3B4216005FF7B9 /* ShowSpotFeedTests */,
 				D500364E2A3B95CF00B0A18F /* ShowSpotFeedAPIEndToEndTests */,
@@ -123,7 +126,6 @@
 				D5DC4E922A3B45C9005FF7B9 /* Feed API */,
 				D5DC4E8F2A3B44D6005FF7B9 /* Feed Feature */,
 				D5DC4E752A3B4216005FF7B9 /* ShowSpotFeed.docc */,
-				D50036482A3B949500B0A18F /* ShowSpotFeed.xctestplan */,
 			);
 			path = ShowSpotFeed;
 			sourceTree = "<group>";

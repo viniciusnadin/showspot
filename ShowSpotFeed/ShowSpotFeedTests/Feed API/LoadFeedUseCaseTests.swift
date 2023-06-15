@@ -59,7 +59,7 @@ class LoadFeedUseCaseTests: XCTestCase {
     func test_load_deliversInvalidDataErrorOn200HTTPResponseWithPartiallyValidJSONItems() {
         let (sut, client) = makeSUT()
         
-        let validItem = makeItem(id: UUID(), name: "a name", image: URL(string: "http://a-url.com")!, schedule: FeedShowSchedule(time: ["00:00"], days: ["a day"]), genres: ["a genre"], summary: "a summary").json
+        let validItem = makeItem(id: 0, name: "a name", image: URL(string: "http://a-url.com")!, schedule: FeedShowSchedule(time: "00:00", days: ["a day"]), genres: ["a genre"], summary: "a summary").json
 
         let invalidItem = ["invalid": "item"]
 
@@ -83,9 +83,9 @@ class LoadFeedUseCaseTests: XCTestCase {
     func test_load_deliversSuccessWithItemsOn200HTTPResponseWithJSONItems() {
         let (sut, client) = makeSUT()
         
-        let item1 = makeItem(id: UUID(), name: "a name", image: URL(string: "http://a-url.com")!, schedule: FeedShowSchedule(time: ["00:00"], days: ["a day"]), genres: ["a genre"], summary: "a summary")
+        let item1 = makeItem(id: 0, name: "a name", image: URL(string: "http://a-url.com")!, schedule: FeedShowSchedule(time: "00:00", days: ["a day"]), genres: ["a genre"], summary: "a summary")
         
-        let item2 = makeItem(id: UUID(), name: "another name", image: URL(string: "http://another-url.com")!, schedule: FeedShowSchedule(time: ["00:01"], days: ["another day"]), genres: ["another genre"], summary: "another summary")
+        let item2 = makeItem(id: 1, name: "another name", image: URL(string: "http://another-url.com")!, schedule: FeedShowSchedule(time: "00:01", days: ["another day"]), genres: ["another genre"], summary: "another summary")
         
         let items = [item1.model, item2.model]
         
@@ -119,14 +119,14 @@ class LoadFeedUseCaseTests: XCTestCase {
         return (sut, client)
     }
     
-    private func makeItem(id: UUID, name: String, image: URL, schedule: FeedShowSchedule, genres: [String], summary: String) -> (model: FeedShow, json: [String: Any]) {
+    private func makeItem(id: Int, name: String, image: URL, schedule: FeedShowSchedule, genres: [String], summary: String) -> (model: FeedShow, json: [String: Any]) {
         let item = FeedShow(id: id, name: name, image: image, schedule: schedule, genres: genres, summary: summary)
         
         let json: [String: Any] = [
-            "id": id.uuidString,
+            "id": id,
             "name": name,
             "image": [ "original": image.absoluteString ],
-            "schedule": ["time": schedule.time, "days": schedule.days],
+            "schedule": ["time": schedule.time, "days": schedule.days] as [String : Any],
             "genres": genres,
             "summary": summary
         ]
