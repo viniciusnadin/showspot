@@ -15,6 +15,7 @@
 		D5DC4E942A3B45EA005FF7B9 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E932A3B45EA005FF7B9 /* HTTPClient.swift */; };
 		D5DC4E972A3B4612005FF7B9 /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E962A3B4612005FF7B9 /* HTTPClientSpy.swift */; };
 		D5DC4E992A3B4784005FF7B9 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E982A3B4784005FF7B9 /* XCTestCase+MemoryLeakTracking.swift */; };
+		D5DC4E9B2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E9A2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		D5DC4E932A3B45EA005FF7B9 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		D5DC4E962A3B4612005FF7B9 /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 		D5DC4E982A3B4784005FF7B9 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		D5DC4E9A2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadFeedUseCaseTests+Helpers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			children = (
 				D5DC4E962A3B4612005FF7B9 /* HTTPClientSpy.swift */,
 				D5DC4E982A3B4784005FF7B9 /* XCTestCase+MemoryLeakTracking.swift */,
+				D5DC4E9A2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				D5DC4E912A3B4560005FF7B9 /* LoadFeedUseCaseTests.swift in Sources */,
 				D5DC4E972A3B4612005FF7B9 /* HTTPClientSpy.swift in Sources */,
 				D5DC4E992A3B4784005FF7B9 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
+				D5DC4E9B2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
