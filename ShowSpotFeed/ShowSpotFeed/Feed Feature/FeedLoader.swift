@@ -25,7 +25,8 @@ public final class FeedLoader {
     }
     
     public func load(completion: @escaping Completion) {
-        self.client.get(from: self.url) { result in
+        self.client.get(from: self.url) { [weak self] result in
+            guard self != nil else { return }
             switch result {
             case let .success((data, response)):
                 completion(FeedItemsMapper.map(data, from: response))
