@@ -95,8 +95,8 @@
 		D5DC4E7F2A3B4216005FF7B9 /* ShowSpotFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				D5DC4EA02A3B884F005FF7B9 /* Feed API */,
 				D5DC4E952A3B4604005FF7B9 /* Helpers */,
-				D5DC4E902A3B4560005FF7B9 /* LoadFeedUseCaseTests.swift */,
 			);
 			path = ShowSpotFeedTests;
 			sourceTree = "<group>";
@@ -125,6 +125,22 @@
 			children = (
 				D5DC4E962A3B4612005FF7B9 /* HTTPClientSpy.swift */,
 				D5DC4E982A3B4784005FF7B9 /* XCTestCase+MemoryLeakTracking.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		D5DC4EA02A3B884F005FF7B9 /* Feed API */ = {
+			isa = PBXGroup;
+			children = (
+				D5DC4EA12A3B8881005FF7B9 /* Helpers */,
+				D5DC4E902A3B4560005FF7B9 /* LoadFeedUseCaseTests.swift */,
+			);
+			path = "Feed API";
+			sourceTree = "<group>";
+		};
+		D5DC4EA12A3B8881005FF7B9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
 				D5DC4E9A2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift */,
 			);
 			path = Helpers;
