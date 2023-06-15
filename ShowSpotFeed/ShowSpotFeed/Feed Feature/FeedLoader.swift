@@ -7,9 +7,19 @@
 
 import Foundation
 
-protocol FeedLoader {
-    typealias FeedLoadResult = Result<[FeedItem], Error>
-    typealias FeedLoadCompletion = (FeedLoadResult) -> Void
+public final class FeedLoader {
+    public typealias FeedLoadResult = Result<[FeedItem], Error>
+    public typealias FeedLoadCompletion = (FeedLoadResult) -> Void
     
-    func load(completion: @escaping FeedLoadCompletion)
+    private let url: URL
+    private let client: HTTPClient
+    
+    public init(url: URL, client: HTTPClient) {
+        self.url = url
+        self.client = client
+    }
+    
+    public func load(completion: @escaping FeedLoadCompletion) {
+        self.client.get(from: self.url) { _ in }
+    }
 }

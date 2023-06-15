@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FeedItem {
+public struct FeedItem {
     let id: UUID
     let name: String
     let image: URL
