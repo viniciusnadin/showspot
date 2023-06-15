@@ -9,7 +9,7 @@ import Foundation
 
 public final class FeedItemsMapper {
     private struct FeedItem: Decodable {
-        private let id: UUID
+        private let id: Int
         private let name: String
         private let image: ImageObject
         private let schedule: ScheduleObject
@@ -25,7 +25,7 @@ public final class FeedItemsMapper {
         }
         
         private struct ScheduleObject: Decodable {
-            let time: [String]
+            let time: String
             let days: [String]
         }
     }

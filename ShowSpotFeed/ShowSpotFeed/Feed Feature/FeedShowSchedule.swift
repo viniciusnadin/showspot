@@ -8,10 +8,10 @@
 import Foundation
 
 public struct FeedShowSchedule: Equatable {
-    public let time: [String]
+    public let time: String
     public let days: [String]
     
-    public init(time: [String], days: [String]) {
+    public init(time: String, days: [String]) {
         self.time = time
         self.days = days
     }

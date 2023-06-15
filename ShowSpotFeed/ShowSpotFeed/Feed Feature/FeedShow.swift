@@ -8,14 +8,14 @@
 import Foundation
 
 public struct FeedShow: Equatable {
-    let id: UUID
+    let id: Int
     let name: String
     let image: URL
     let schedule: FeedShowSchedule
     let genres: [String]
     let summary: String
     
-    public init(id: UUID, name: String, image: URL, schedule: FeedShowSchedule, genres: [String], summary: String) {
+    public init(id: Int, name: String, image: URL, schedule: FeedShowSchedule, genres: [String], summary: String) {
         self.id = id
         self.name = name
         self.image = image
