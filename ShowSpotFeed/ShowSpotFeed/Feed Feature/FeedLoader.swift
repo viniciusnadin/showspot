@@ -8,7 +8,7 @@
 import Foundation
 
 public final class FeedLoader {
-    public typealias Result = Swift.Result<[FeedItem], Error>
+    public typealias Result = Swift.Result<[FeedShow], Error>
     public typealias Completion = (Result) -> Void
     
     public enum Error: Swift.Error {
@@ -33,16 +33,5 @@ public final class FeedLoader {
                 completion(.failure(Error.connectivity))
             }
         }
-    }
-}
-
-enum FeedItemsMapper {
-    private static var OK_200: Int { return 200 }
-    
-    static func map(_ data: Data, from response: HTTPURLResponse) -> FeedLoader.Result {
-        guard response.statusCode == OK_200 else {
-            return .failure(FeedLoader.Error.invalidData)
-        }
-        return .success([])
     }
 }
