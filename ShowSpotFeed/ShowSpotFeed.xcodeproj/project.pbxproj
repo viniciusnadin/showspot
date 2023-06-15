@@ -11,6 +11,7 @@
 		D5DC4E7C2A3B4216005FF7B9 /* ShowSpotFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5DC4E712A3B4216005FF7B9 /* ShowSpotFeed.framework */; };
 		D5DC4E812A3B4216005FF7B9 /* ShowSpotFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E802A3B4216005FF7B9 /* ShowSpotFeedTests.swift */; };
 		D5DC4E8C2A3B4227005FF7B9 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E8B2A3B4227005FF7B9 /* FeedItem.swift */; };
+		D5DC4E8E2A3B429A005FF7B9 /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E8D2A3B429A005FF7B9 /* FeedLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		D5DC4E7B2A3B4216005FF7B9 /* ShowSpotFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShowSpotFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5DC4E802A3B4216005FF7B9 /* ShowSpotFeedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowSpotFeedTests.swift; sourceTree = "<group>"; };
 		D5DC4E8B2A3B4227005FF7B9 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		D5DC4E8D2A3B429A005FF7B9 /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				D5DC4E752A3B4216005FF7B9 /* ShowSpotFeed.docc */,
 				D5DC4E8B2A3B4227005FF7B9 /* FeedItem.swift */,
+				D5DC4E8D2A3B429A005FF7B9 /* FeedLoader.swift */,
 			);
 			path = ShowSpotFeed;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5DC4E8E2A3B429A005FF7B9 /* FeedLoader.swift in Sources */,
 				D5DC4E8C2A3B4227005FF7B9 /* FeedItem.swift in Sources */,
 				D5DC4E762A3B4216005FF7B9 /* ShowSpotFeed.docc in Sources */,
 			);
