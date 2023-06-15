@@ -18,6 +18,7 @@
 		D5DC4E9B2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E9A2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift */; };
 		D5DC4E9D2A3B8470005FF7B9 /* FeedShowSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E9C2A3B8470005FF7B9 /* FeedShowSchedule.swift */; };
 		D5DC4E9F2A3B85E1005FF7B9 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4E9E2A3B85E1005FF7B9 /* FeedItemsMapper.swift */; };
+		D5DC4EA32A3B8991005FF7B9 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DC4EA22A3B8991005FF7B9 /* URLSessionHTTPClientTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		D5DC4E9A2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoadFeedUseCaseTests+Helpers.swift"; sourceTree = "<group>"; };
 		D5DC4E9C2A3B8470005FF7B9 /* FeedShowSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedShowSchedule.swift; sourceTree = "<group>"; };
 		D5DC4E9E2A3B85E1005FF7B9 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
+		D5DC4EA22A3B8991005FF7B9 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				D5DC4EA02A3B884F005FF7B9 /* Feed API */,
 				D5DC4E952A3B4604005FF7B9 /* Helpers */,
+				D5DC4EA22A3B8991005FF7B9 /* URLSessionHTTPClientTests.swift */,
 			);
 			path = ShowSpotFeedTests;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			files = (
 				D5DC4E912A3B4560005FF7B9 /* LoadFeedUseCaseTests.swift in Sources */,
 				D5DC4E972A3B4612005FF7B9 /* HTTPClientSpy.swift in Sources */,
+				D5DC4EA32A3B8991005FF7B9 /* URLSessionHTTPClientTests.swift in Sources */,
 				D5DC4E992A3B4784005FF7B9 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 				D5DC4E9B2A3B488E005FF7B9 /* LoadFeedUseCaseTests+Helpers.swift in Sources */,
 			);
