@@ -34,6 +34,19 @@ class LoadFeedUseCaseTests: XCTestCase {
         })
     }
     
+    func test_load_deliversInvalidDataErrorOnNon200HTTPResponse() {
+        let (sut, client) = makeSUT()
+
+        let samples = [199, 201, 300, 400, 500]
+
+        samples.enumerated().forEach { index, code in
+            expect(sut, toCompleteWith: .failure(.invalidData), when: {
+                let json = try! JSONSerialization.data(withJSONObject: [""])
+                client.complete(withStatusCode: code, data: json, at: index)
+            })
+        }
+    }
+    
     // MARK: - Helpers
 
     private func makeSUT(url: URL = URL(string: "https://a-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedLoader, client: HTTPClientSpy) {

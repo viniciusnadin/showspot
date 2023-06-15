@@ -9,7 +9,7 @@ import XCTest
 import ShowSpotFeed
 
 extension LoadFeedUseCaseTests {
-    func expect(_ sut: FeedLoader, toCompleteWith expectedResult: FeedLoader.FeedLoadResult, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    func expect(_ sut: FeedLoader, toCompleteWith expectedResult: FeedLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for load completion")
 
         sut.load { receivedResult in

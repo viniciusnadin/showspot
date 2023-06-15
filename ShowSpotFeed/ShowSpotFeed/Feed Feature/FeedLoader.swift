@@ -8,11 +8,12 @@
 import Foundation
 
 public final class FeedLoader {
-    public typealias FeedLoadResult = Result<[FeedItem], Error>
-    public typealias FeedLoadCompletion = (FeedLoadResult) -> Void
+    public typealias Result = Swift.Result<[FeedItem], Error>
+    public typealias Completion = (Result) -> Void
     
     public enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
     
     private let url: URL
@@ -23,9 +24,25 @@ public final class FeedLoader {
         self.client = client
     }
     
-    public func load(completion: @escaping FeedLoadCompletion) {
+    public func load(completion: @escaping Completion) {
         self.client.get(from: self.url) { result in
-            completion(.failure(.connectivity))
+            switch result {
+            case let .success((data, response)):
+                completion(FeedItemsMapper.map(data, from: response))
+            case .failure:
+                completion(.failure(Error.connectivity))
+            }
         }
+    }
+}
+
+enum FeedItemsMapper {
+    private static var OK_200: Int { return 200 }
+    
+    static func map(_ data: Data, from response: HTTPURLResponse) -> FeedLoader.Result {
+        guard response.statusCode == OK_200 else {
+            return .failure(FeedLoader.Error.invalidData)
+        }
+        return .success([])
     }
 }
