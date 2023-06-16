@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "11F172CF-3E1A-41F7-89B5-EBED16C92CED",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ShowSpotFeed.xcodeproj",
+        "identifier" : "D5379FF12A3D29A6007BDAEC",
+        "name" : "ShowSpotFeediOSTests"
+      }
+    }
+  ],
+  "version" : 1
+}
