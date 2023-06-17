@@ -27,6 +27,7 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
     
     private var task: FeedImageDataLoaderTask?
     var imageLoader: FeedImageDataLoader?
+    var episodeLoader: EpisodeLoader?
     
     var isShowDetailView: Bool = true {
         didSet {
@@ -43,6 +44,26 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
         loadImage()
         setLabelsValues()
         configureNavigationBar()
+        
+        let url = URL(string: "https://api.tvmaze.com/shows/\(show!.id)/episodes")!
+        let session = URLSession(configuration: .ephemeral)
+        let client = URLSessionHTTPClient(session: session)
+        episodeLoader = EpisodeLoader(url: url, client: client)
+        
+        episodeLoader?.load(completion: { result in
+            switch result {
+            case .success(let episodes):
+                let group = Dictionary(grouping: episodes, by: { $0.season })
+                self.seasons = group.map { Season(number: $0.key, episodes: $0.value) }.sorted(by: { $0.number < $1.number})
+                self.updateSeasonsDataSource()
+                self.updateEpisodeDataSource(for: self.seasons.first!)
+            case .failure:
+                break
+            }
+        })
+        
+        setSeasonsDataSource()
+        setEpisodesDataSource()
     }
 
     override func viewDidLoad() {
@@ -50,19 +71,12 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
         
         mainScrollView.contentInsetAdjustmentBehavior = .never
         
-        episodesCollectionView.delegate = self
         seasonsCollectionView.delegate = self
         
         seasonsCollectionView.register(SeasonCell.self, forCellWithReuseIdentifier: SeasonCell.reuseIdentifier)
 
-        let nib = UINib(nibName: "EpisodeCell", bundle: nil)
+        let nib = UINib(nibName: "EpisodeCell", bundle: Bundle(for: EpisodeCell.self))
         episodesCollectionView.register(nib, forCellWithReuseIdentifier: "EpisodeCell")
-        
-//        setSeasonsDataSource()
-//        setEpisodesDataSource()
-        
-//        updateSeasonsDataSource()
-//        updateEpisodeDataSource(for: seasons.first!)
     }
     
     private func configureNavigationBar() {
@@ -114,6 +128,8 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
     
     // MARK: - Episodes Feature
     var seasons = [Season]()
+    
+    
     enum Section {
         case seasons
         case episodes
@@ -151,10 +167,7 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
     
     private func setEpisodesDataSource() {
         episodeDataSource = UICollectionViewDiffableDataSource(collectionView: episodesCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            let episode = itemIdentifier
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
-            cell.configure(with: episode)
-            return cell
+            EpisodeCellController(model: itemIdentifier, imageLoader: self.imageLoader!).view(collectionView: collectionView, indexPath: indexPath)
         })
     }
 }

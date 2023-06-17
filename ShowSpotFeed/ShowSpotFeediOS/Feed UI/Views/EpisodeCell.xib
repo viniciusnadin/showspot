@@ -10,14 +10,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EpisodeCell" id="fAa-Ix-7TW" customClass="EpisodeCell" customModule="Prototype" customModuleProvider="target">
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EpisodeCell" id="fAa-Ix-7TW" customClass="EpisodeCell" customModule="ShowSpotFeediOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="156" height="140"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <collectionViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Y4x-86-7o5">
                 <rect key="frame" x="0.0" y="0.0" width="156" height="140"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Jx-8K-reU" userLabel="Image Container">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Jx-8K-reU" userLabel="Image Container">
                         <rect key="frame" x="8" y="0.0" width="140" height="80"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hxg-Qv-2KX" userLabel="Image">
@@ -26,20 +26,20 @@
                                     <constraint firstAttribute="width" constant="140" id="D1x-zE-Gh8"/>
                                     <constraint firstAttribute="height" constant="80" id="NKT-se-nWD"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="hxg-Qv-2KX" secondAttribute="trailing" id="3Wh-SE-Cfu"/>
                             <constraint firstItem="hxg-Qv-2KX" firstAttribute="leading" secondItem="2Jx-8K-reU" secondAttribute="leading" id="dXz-ce-kNq"/>
                             <constraint firstItem="hxg-Qv-2KX" firstAttribute="top" secondItem="2Jx-8K-reU" secondAttribute="top" id="eef-e1-BIZ"/>
                             <constraint firstAttribute="height" constant="80" id="mNg-ok-vHh"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PeE-gr-Oaw" userLabel="Number">
                         <rect key="frame" x="10" y="84" width="138" height="10"/>
@@ -84,7 +84,8 @@
             </collectionViewCellContentView>
             <size key="customSize" width="156" height="140"/>
             <connections>
-                <outlet property="image" destination="hxg-Qv-2KX" id="jv3-dG-4gw"/>
+                <outlet property="imageContainer" destination="2Jx-8K-reU" id="3KR-ye-dAx"/>
+                <outlet property="imageView" destination="hxg-Qv-2KX" id="jv3-dG-4gw"/>
                 <outlet property="name" destination="TTJ-ip-XFC" id="zug-6c-vxP"/>
                 <outlet property="number" destination="PeE-gr-Oaw" id="YvN-Hq-8gQ"/>
             </connections>
@@ -92,8 +93,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
