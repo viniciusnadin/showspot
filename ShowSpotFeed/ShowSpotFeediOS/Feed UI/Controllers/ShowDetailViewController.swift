@@ -29,15 +29,7 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
     var imageLoader: FeedImageDataLoader?
     var episodeLoader: EpisodeLoader?
     
-    var isShowDetailView: Bool = true {
-        didSet {
-            if !isShowDetailView {
-                self.episodesCollectionView.isHidden = true
-                self.seasonsCollectionView.isHidden = true
-                self.view.backgroundColor = .black
-            }
-        }
-    }
+    var isShowDetailView: Bool = true
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -45,25 +37,32 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
         setLabelsValues()
         configureNavigationBar()
         
-        let url = URL(string: "https://api.tvmaze.com/shows/\(show!.id)/episodes")!
-        let session = URLSession(configuration: .ephemeral)
-        let client = URLSessionHTTPClient(session: session)
-        episodeLoader = EpisodeLoader(url: url, client: client)
-        
-        episodeLoader?.load(completion: { result in
-            switch result {
-            case .success(let episodes):
-                let group = Dictionary(grouping: episodes, by: { $0.season })
-                self.seasons = group.map { Season(number: $0.key, episodes: $0.value) }.sorted(by: { $0.number < $1.number})
-                self.updateSeasonsDataSource()
-                self.updateEpisodeDataSource(for: self.seasons.first!)
-            case .failure:
-                break
-            }
-        })
-        
-        setSeasonsDataSource()
-        setEpisodesDataSource()
+        if !isShowDetailView {
+            self.episodesCollectionView.isHidden = true
+            self.seasonsCollectionView.isHidden = true
+            self.view.backgroundColor = .black
+        } else {
+            
+            let url = URL(string: "https://api.tvmaze.com/shows/\(show!.id)/episodes")!
+            let session = URLSession(configuration: .ephemeral)
+            let client = URLSessionHTTPClient(session: session)
+            episodeLoader = EpisodeLoader(url: url, client: client)
+            
+            episodeLoader?.load(completion: { result in
+                switch result {
+                case .success(let episodes):
+                    let group = Dictionary(grouping: episodes, by: { $0.season })
+                    self.seasons = group.map { Season(number: $0.key, episodes: $0.value) }.sorted(by: { $0.number < $1.number})
+                    self.updateSeasonsDataSource()
+                    self.updateEpisodeDataSource(for: self.seasons.first!)
+                case .failure:
+                    break
+                }
+            })
+            
+            setSeasonsDataSource()
+            setEpisodesDataSource()
+        }
     }
 
     override func viewDidLoad() {
@@ -72,6 +71,7 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
         mainScrollView.contentInsetAdjustmentBehavior = .never
         
         seasonsCollectionView.delegate = self
+        episodesCollectionView.delegate = self
         
         seasonsCollectionView.register(SeasonCell.self, forCellWithReuseIdentifier: SeasonCell.reuseIdentifier)
 
@@ -115,11 +115,12 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
             let season = seasons[indexPath.row]
             updateEpisodeDataSource(for: season)
         } else if collectionView == episodesCollectionView {
-            let storyboard = UIStoryboard(name: "ShowDetailViewController", bundle: nil)
+            let storyboard = UIStoryboard(name: "ShowDetailViewController", bundle: Bundle(for: ShowDetailViewController.self))
             let vc = storyboard.instantiateViewController(withIdentifier: "ShowDetailViewController") as! ShowDetailViewController
             let episode = episodeDataSource.snapshot(for: .episodes).items[indexPath.row]
             
-            vc.show = FeedShow(id: episode.id, name: episode.name, image: episode.image, schedule: FeedShowSchedule(time: "", days: []), genres: [], summary: episode.summary)
+            vc.imageLoader = imageLoader
+            vc.show = FeedShow(id: episode.id, name: episode.name, image: episode.image, schedule: FeedShowSchedule(time: "", days: ["Season \(episode.season)", "Episode \(episode.number)"]), genres: [], summary: episode.summary)
             vc.isShowDetailView = false
             
             self.navigationController?.pushViewController(vc, animated: true)
