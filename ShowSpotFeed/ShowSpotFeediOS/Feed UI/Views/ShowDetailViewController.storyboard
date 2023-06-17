@@ -11,7 +11,7 @@
         <!--Show Detail View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="ShowDetailViewController" id="Y6W-OH-hqX" customClass="ShowDetailViewController" customModule="Prototype" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShowDetailViewController" id="Y6W-OH-hqX" customClass="ShowDetailViewController" customModule="ShowSpotFeediOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -35,7 +35,7 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="393" height="520"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </imageView>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oVz-WG-B5I" customClass="GradientView" customModule="Prototype" customModuleProvider="target">
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oVz-WG-B5I" customClass="GradientView" customModule="ShowSpotFeediOS" customModuleProvider="target">
                                                                         <rect key="frame" x="0.0" y="0.0" width="393" height="520"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <userDefinedRuntimeAttributes>
@@ -187,15 +187,15 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="393" height="1000"/>
                     <connections>
-                        <outlet property="days" destination="xkg-Hr-s5c" id="3Vn-h2-GHJ"/>
                         <outlet property="episodesCollectionView" destination="B9R-xu-Eeo" id="Ioh-59-5q1"/>
-                        <outlet property="genres" destination="93r-iG-mb4" id="J5M-EV-I4c"/>
-                        <outlet property="image" destination="NaN-T4-2Eb" id="j6r-1R-Jhc"/>
-                        <outlet property="name" destination="qS6-GP-cSk" id="7NP-yO-Dyy"/>
-                        <outlet property="scrollView" destination="iNn-oD-aod" id="cxP-XY-DpZ"/>
+                        <outlet property="genresLabel" destination="93r-iG-mb4" id="J5M-EV-I4c"/>
+                        <outlet property="imageView" destination="NaN-T4-2Eb" id="j6r-1R-Jhc"/>
+                        <outlet property="mainScrollView" destination="iNn-oD-aod" id="cxP-XY-DpZ"/>
+                        <outlet property="nameLabel" destination="qS6-GP-cSk" id="7NP-yO-Dyy"/>
+                        <outlet property="scheduleDaysLabel" destination="xkg-Hr-s5c" id="3Vn-h2-GHJ"/>
+                        <outlet property="scheduleTimeLabel" destination="vJa-v2-iQF" id="0xu-3o-6Eo"/>
                         <outlet property="seasonsCollectionView" destination="a7l-pc-Utx" id="wV2-ZY-6aV"/>
-                        <outlet property="summary" destination="jJp-xV-kjj" id="uRT-UI-KAp"/>
-                        <outlet property="time" destination="vJa-v2-iQF" id="0xu-3o-6Eo"/>
+                        <outlet property="summaryLabel" destination="jJp-xV-kjj" id="uRT-UI-KAp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

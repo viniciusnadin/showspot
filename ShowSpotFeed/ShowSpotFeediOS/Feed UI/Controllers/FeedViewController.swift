@@ -11,12 +11,8 @@ import ShowSpotFeed
 final public class FeedViewController: UICollectionViewController {
     
     // MARK: - Attributes
-    private var feedLoader: FeedLoader?
-    private var imageLoader: FeedImageDataLoader?
-    
-    private var tasks = [IndexPath: FeedImageDataLoaderTask]()
-    
     private var refreshController: FeedRefreshViewController?
+    private var showDetailViewController: ShowDetailViewController?
     private var dataSource: UICollectionViewDiffableDataSource<Section, FeedShow>!
     
     enum Section { case main }
@@ -24,9 +20,13 @@ final public class FeedViewController: UICollectionViewController {
     var model = [FeedShowCellController]() { didSet { updateDataSource() }}
     
     // MARK: - Initializer
-    convenience init(refreshController: FeedRefreshViewController) {
+    convenience init(
+        refreshController: FeedRefreshViewController,
+        showDetailViewController: ShowDetailViewController
+    ) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
         self.refreshController = refreshController
+        self.showDetailViewController = showDetailViewController
     }
     
     // MARK: - Life Cycle
@@ -74,12 +74,8 @@ extension FeedViewController {
     }
     
     public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let bundle = Bundle(for: type(of: self))
-        let storyboard = UIStoryboard(name: "ShowDetailViewController", bundle: bundle)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ShowDetailViewController") as! ShowDetailViewController
-        vc.showViewModel = model[indexPath.row].model
-        self.navigationController?.pushViewController(vc, animated: true)
+        showDetailViewController?.show = model[indexPath.row].model
+        self.navigationController?.pushViewController(showDetailViewController!, animated: true)
     }
 }
 

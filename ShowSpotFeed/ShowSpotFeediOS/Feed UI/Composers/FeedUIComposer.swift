@@ -12,8 +12,9 @@ public final class FeedUIComposer {
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
+        let showDetailController = showDetailViewController(imageLoader: imageLoader)
         let refreshController = FeedRefreshViewController(feedLoader: feedLoader)
-        let feedController = FeedViewController(refreshController: refreshController)
+        let feedController = FeedViewController(refreshController: refreshController, showDetailViewController: showDetailController)
         refreshController.onRefresh = adaptFeedToCellControllers(forwardingTo: feedController, loader: imageLoader)
         return feedController
     }
@@ -24,5 +25,12 @@ public final class FeedUIComposer {
                 FeedShowCellController(model: model, imageLoader: loader)
             }
         }
+    }
+    
+    private static func showDetailViewController(imageLoader: FeedImageDataLoader) -> ShowDetailViewController {
+        let storyboard = UIStoryboard(name: "ShowDetailViewController", bundle: Bundle(for: ShowDetailViewController.self))
+        let vc = storyboard.instantiateViewController(withIdentifier: "ShowDetailViewController") as! ShowDetailViewController
+        vc.imageLoader = imageLoader
+        return vc
     }
 }
