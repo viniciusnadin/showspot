@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct FeedShowSchedule: Equatable {
+public struct FeedShowSchedule: Hashable {
     public let time: String
     public let days: [String]
     

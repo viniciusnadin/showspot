@@ -7,13 +7,13 @@
 
 import Foundation
 
-public struct FeedShow: Equatable {
-    let id: Int
-    let name: String
-    let image: URL
-    let schedule: FeedShowSchedule
-    let genres: [String]
-    let summary: String
+public struct FeedShow: Hashable {
+    public let id: Int
+    public let name: String
+    public let image: URL
+    public let schedule: FeedShowSchedule
+    public let genres: [String]
+    public let summary: String
     
     public init(id: Int, name: String, image: URL, schedule: FeedShowSchedule, genres: [String], summary: String) {
         self.id = id
