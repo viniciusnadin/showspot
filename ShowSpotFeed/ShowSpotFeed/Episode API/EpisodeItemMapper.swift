@@ -30,7 +30,7 @@ public final class EpisodeItemsMapper {
     
     public static func map(_ data: Data, from response: HTTPURLResponse) -> EpisodeLoader.Result {
         guard response.statusCode == OK_200, let items = try? JSONDecoder().decode([EpisodeItem].self, from: data) else {
-            return .failure(.invalidData)
+            return .failure(EpisodeLoader.Error.invalidData)
         }
         
         return .success(items.map(\.episode))

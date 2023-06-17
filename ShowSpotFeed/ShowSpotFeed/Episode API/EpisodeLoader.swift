@@ -7,9 +7,14 @@
 
 import Foundation
 
-public class EpisodeLoader {
-    public typealias Result = Swift.Result<[ShowEpisode], Error>
-    public typealias Completion = (Result) -> Void
+public protocol EpisodeLoaderProtocol {
+    typealias Result = Swift.Result<[ShowEpisode], Error>
+    typealias Completion = (Result) -> Void
+    
+    func load(completion: @escaping Completion)
+}
+
+public class EpisodeLoader: EpisodeLoaderProtocol {
     
     public enum Error: Swift.Error {
         case connectivity
@@ -24,7 +29,7 @@ public class EpisodeLoader {
         self.client = client
     }
     
-    public func load(completion: @escaping Completion) {
+    public func load(completion: @escaping EpisodeLoader.Completion) {
         self.client.get(from: self.url) { [weak self] result in
             guard self != nil else { return }
             switch result {

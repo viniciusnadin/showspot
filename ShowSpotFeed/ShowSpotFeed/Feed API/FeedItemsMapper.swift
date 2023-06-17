@@ -34,7 +34,7 @@ public final class FeedItemsMapper {
     
     public static func map(_ data: Data, from response: HTTPURLResponse) -> FeedLoader.Result {
         guard response.statusCode == OK_200, let items = try? JSONDecoder().decode([FeedItem].self, from: data) else {
-            return .failure(.invalidData)
+            return .failure(FeedLoader.Error.invalidData)
         }
         
         return .success(items.map(\.show))

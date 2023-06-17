@@ -7,10 +7,14 @@
 
 import Foundation
 
-public class FeedLoader {
-    public typealias Result = Swift.Result<[FeedShow], Error>
-    public typealias Completion = (Result) -> Void
+public protocol FeedLoaderProtocol {
+    typealias Result = Swift.Result<[FeedShow], Error>
+    typealias Completion = (Result) -> Void
     
+    func load(completion: @escaping Completion)
+}
+
+public class FeedLoader: FeedLoaderProtocol {
     public enum Error: Swift.Error {
         case connectivity
         case invalidData
@@ -24,7 +28,7 @@ public class FeedLoader {
         self.client = client
     }
     
-    public func load(completion: @escaping Completion) {
+    public func load(completion: @escaping FeedLoaderProtocol.Completion) {
         self.client.get(from: self.url) { [weak self] result in
             guard self != nil else { return }
             switch result {

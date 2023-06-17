@@ -8,55 +8,55 @@
 import UIKit
 import ShowSpotFeed
 
-final class FeedShowCellController {
+public protocol FeedShowCellControllerDelegate {
+    func didRequestImage()
+    func didCancelImageRequest()
+}
+
+public final class FeedShowCellController: FeedShowView {
     
-    // MARK: - Attributes
-    private var task: FeedImageDataLoaderTask?
-    let model: FeedShow
-    private let imageLoader: FeedImageDataLoader
+    let id: AnyHashable
+    private let delegate: FeedShowCellControllerDelegate
+    private var cell: ShowCell?
+    let selection: () -> Void
     
-    // MARK: - Initializer
-    init(model: FeedShow, imageLoader: FeedImageDataLoader) {
-        self.model = model
-        self.imageLoader = imageLoader
+    public init(_ id: AnyHashable = UUID(), delegate: FeedShowCellControllerDelegate, selection: @escaping () -> Void) {
+        self.id = id
+        self.delegate = delegate
+        self.selection = selection
     }
     
-    // MARK: - Public Methods
-    func view(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    public func view(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShowCell.reuseIdentifier, for: indexPath) as! ShowCell
-        
-        cell.nameLabel.text = model.name
-        cell.imageView.image = nil
-        cell.imageRetryButton.isHidden = true
-        cell.imageContainer.startShimmering()
-        cell.imageRetryButton.isHidden = true
-        cell.imageContainer.startShimmering()
-        
-        let loadImage = { [weak self, weak cell] in
-            guard let self = self else { return }
-            
-            self.task = self.imageLoader.loadImageData(from: self.model.image) { [weak cell] result in
-                let data = try? result.get()
-                let image = data.map(UIImage.init) ?? nil
-                DispatchQueue.main.async {
-                    cell?.fadeIn(image)
-                    cell?.imageRetryButton.isHidden = (image != nil)
-                    cell?.imageContainer.stopShimmering()
-                }
-            }
-        }
-        
-        cell.onRetry = loadImage
-        loadImage()
-        
+        self.cell = cell
+        delegate.didRequestImage()
         return cell
     }
     
     func preload() {
-        task = imageLoader.loadImageData(from: model.image) { _ in }
+        delegate.didRequestImage()
     }
     
     func cancelLoad() {
-        task?.cancel()
+        cell = nil
+        delegate.didCancelImageRequest()
+    }
+    
+    public func display(_ viewModel: FeedShowViewModel<UIImage>) {
+        cell?.nameLabel.text = viewModel.name
+        cell?.imageView.setImageAnimated(viewModel.image)
+        cell?.imageContainer.isShimmering = viewModel.isLoading
+        cell?.onRetry = delegate.didRequestImage
+    }
+}
+
+extension FeedShowCellController: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+extension FeedShowCellController: Equatable {
+    public static func == (lhs: FeedShowCellController, rhs: FeedShowCellController) -> Bool {
+        lhs.id == rhs.id
     }
 }

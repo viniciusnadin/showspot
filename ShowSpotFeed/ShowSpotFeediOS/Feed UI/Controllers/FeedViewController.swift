@@ -8,49 +8,47 @@
 import UIKit
 import ShowSpotFeed
 
+public protocol FeedViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
+
 final public class FeedViewController: UICollectionViewController {
     
     // MARK: - Attributes
-    private var refreshController: FeedRefreshViewController?
+    private var loadingControllers = [IndexPath: FeedShowCellController]()
+    private var model = [FeedShowCellController]() { didSet { updateDataSource() }}
+    public var delegate: FeedViewControllerDelegate?
+    private var dataSource: UICollectionViewDiffableDataSource<Int, FeedShowCellController>!
+    
+    
     private var showDetailViewController: ShowDetailViewController?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, FeedShow>!
     private let searchController = UISearchController()
     
-    enum Section { case main }
-    
-    var model = [FeedShowCellController]() { didSet { updateDataSource() }}
-    
-    // MARK: - Initializer
-    convenience init(
-        refreshController: FeedRefreshViewController,
-        showDetailViewController: ShowDetailViewController
-    ) {
-        self.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.refreshController = refreshController
-        self.showDetailViewController = showDetailViewController
-    }
-    
     // MARK: - Life Cycle
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Shows"
-        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
-        collectionView.prefetchDataSource = self
-        
-        configureSearchController()
         registerShowCell()
+        configureCollectionView()
+        configureSearchController()
         setDataSource()
-        setRefreshController()
         
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    public func display(_ cellControllers: [FeedShowCellController]) {
+        loadingControllers = [:]
+        model = cellControllers
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.sizeToFit()
-        refreshController?.refresh()
+        refresh()
+    }
+    
+    @objc private func refresh() {
+        delegate?.didRequestFeedRefresh()
     }
     
     // MARK: - Private Methods
@@ -58,23 +56,6 @@ final public class FeedViewController: UICollectionViewController {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: "ShowCell", bundle: bundle)
         collectionView.register(nib, forCellWithReuseIdentifier: ShowCell.reuseIdentifier)
-    }
-    
-    private func setRefreshController() {
-        if #available(iOS 10.0, *) {
-            collectionView.refreshControl = refreshController?.view
-        } else {
-            guard let view = refreshController?.view else { return }
-            collectionView.addSubview(view)
-        }
-    }
-    
-    private func cellController(forRowAt indexPath: IndexPath) -> FeedShowCellController {
-        return model[indexPath.row]
-    }
-    
-    private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
-        cellController(forRowAt: indexPath).cancelLoad()
     }
     
     private func configureSearchController() {
@@ -85,6 +66,24 @@ final public class FeedViewController: UICollectionViewController {
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
     }
+    
+    private func configureCollectionView() {
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        collectionView.prefetchDataSource = self
+    }
+    
+    private func cellController(forRowAt indexPath: IndexPath) -> FeedShowCellController {
+        let controller = model[indexPath.row]
+        loadingControllers[indexPath] = controller
+        return controller
+    }
+    
+    private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
+        loadingControllers[indexPath]?.cancelLoad()
+        loadingControllers[indexPath] = nil
+    }
 }
 
 // MARK: - CollectionViewDelegate
@@ -94,8 +93,7 @@ extension FeedViewController {
     }
     
     public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        showDetailViewController?.show = model[indexPath.row].model
-        self.navigationController?.pushViewController(showDetailViewController!, animated: true)
+        model[indexPath.row].selection()
     }
 }
 
@@ -122,9 +120,9 @@ extension FeedViewController {
     }
     
     private func updateDataSource() {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, FeedShow>()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(model.map { $0.model })
+        var snapShot = NSDiffableDataSourceSnapshot<Int, FeedShowCellController>()
+        snapShot.appendSections([0])
+        snapShot.appendItems(model, toSection: 0)
         dataSource.apply(snapShot, animatingDifferences: true, completion: nil)
     }
 }
@@ -157,8 +155,20 @@ extension FeedViewController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
         if searchText == "" { return  }
-        model = model.filter { $0.model.name.lowercased().contains(searchText.lowercased()) }
+//        model = model.filter { $0.model.name.lowercased().contains(searchText.lowercased()) }
         updateDataSource()
     }
 
+}
+
+extension FeedViewController: FeedLoadingView {
+    public func display(_ viewModel: FeedLoadingViewModel) {
+        collectionView.refreshControl?.update(isRefreshing: viewModel.isLoading)
+    }
+}
+
+extension UIRefreshControl {
+    func update(isRefreshing: Bool) {
+        isRefreshing ? beginRefreshing() : endRefreshing()
+    }
 }

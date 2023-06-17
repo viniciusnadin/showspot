@@ -8,7 +8,11 @@
 import UIKit
 import ShowSpotFeed
 
-class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
+public protocol ShowDetailViewControllerDelegate {
+    func didRequestEpisodeLoad()
+}
+
+public class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
 
     // MARK: - Outlets
     @IBOutlet private(set) var mainScrollView: UIScrollView!
@@ -23,15 +27,16 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
     @IBOutlet private(set) var episodesCollectionView: UICollectionView!
 
     // MARK: - Attributes
-    var show: FeedShow?
+    public var show: FeedShow?
+    public var delegate: ShowDetailViewControllerDelegate?
     
-    private var task: FeedImageDataLoaderTask?
-    var imageLoader: FeedImageDataLoader?
-    var episodeLoader: EpisodeLoader?
+    private var task: ImageDataLoaderTask?
+    public var imageLoader: ImageDataLoader?
+    public var episodeLoader: EpisodeLoaderProtocol?
     
     var isShowDetailView: Bool = true
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadImage()
         setLabelsValues()
@@ -65,7 +70,7 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
         }
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         mainScrollView.contentInsetAdjustmentBehavior = .never
@@ -110,7 +115,7 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
         loadImage()
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == seasonsCollectionView {
             let season = seasons[indexPath.row]
             updateEpisodeDataSource(for: season)

@@ -8,15 +8,20 @@
 import UIKit
 import ShowSpotFeed
 
+public protocol EpisodeCellControllerDelegate {
+    func didRequestImage()
+    func didCancelImageRequest()
+}
+
 final class EpisodeCellController {
     
     // MARK: - Attributes
-    private var task: FeedImageDataLoaderTask?
+    private var task: ImageDataLoaderTask?
     let model: ShowEpisode
-    private let imageLoader: FeedImageDataLoader
+    private let imageLoader: ImageDataLoader
     
     // MARK: - Initializer
-    init(model: ShowEpisode, imageLoader: FeedImageDataLoader) {
+    init(model: ShowEpisode, imageLoader: ImageDataLoader) {
         self.model = model
         self.imageLoader = imageLoader
     }
@@ -29,7 +34,7 @@ final class EpisodeCellController {
         cell.imageView.image = nil
         
         cell.imageRetryButton.isHidden = true
-        cell.imageContainer.startShimmering()
+        cell.imageContainer.isShimmering = true
         
         let loadImage = { [weak self, weak cell] in
             guard let self = self else { return }
@@ -40,7 +45,7 @@ final class EpisodeCellController {
                 DispatchQueue.main.async {
                     cell?.fadeIn(image)
                     cell?.imageRetryButton.isHidden = (image != nil)
-                    cell?.imageContainer.stopShimmering()
+                    cell?.imageContainer.isShimmering = false
                 }
             }
         }

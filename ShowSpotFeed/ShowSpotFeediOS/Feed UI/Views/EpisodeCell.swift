@@ -44,7 +44,7 @@ final class EpisodeCell: UICollectionViewCell {
     // MARK: - Shimmering Animation
     private func beginShimmering() {
         imageView.alpha = 0
-        imageContainer.startShimmering()
+        imageContainer.isShimmering = true
     }
     
     // MARK: - Fade Animation
@@ -59,7 +59,7 @@ final class EpisodeCell: UICollectionViewCell {
                 self.imageView.alpha = 1
             }, completion: { completed in
                 if completed {
-                    self.imageContainer.stopShimmering()
+                    self.imageContainer.isShimmering = false
                 }
             })
     }

@@ -19,7 +19,7 @@ public final class FeedImageDataLoader: ImageDataLoader {
         case invalidData
     }
     
-    private final class HTTPClientTaskWrapper: FeedImageDataLoaderTask {
+    private final class HTTPClientTaskWrapper: ImageDataLoaderTask {
         private var completion: ((ImageDataLoader.Result) -> Void)?
         
         var wrapped: HTTPClientTask?
@@ -42,7 +42,7 @@ public final class FeedImageDataLoader: ImageDataLoader {
         }
     }
     
-    public func loadImageData(from url: URL, completion: @escaping (ImageDataLoader.Result) -> Void) -> FeedImageDataLoaderTask {
+    public func loadImageData(from url: URL, completion: @escaping (ImageDataLoader.Result) -> Void) -> ImageDataLoaderTask {
         let task = HTTPClientTaskWrapper(completion)
         task.wrapped = client.get(from: url) { [weak self] result in
             guard self != nil else { return }
