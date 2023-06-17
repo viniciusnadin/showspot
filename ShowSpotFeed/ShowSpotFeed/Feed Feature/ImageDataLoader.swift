@@ -1,5 +1,5 @@
 //
-//  FeedImageDataLoader.swift
+//  ImageDataLoader.swift
 //  ShowSpotFeediOS
 //
 //  Created by Vinicius Nadin on 16/06/23.

@@ -13,7 +13,7 @@ public protocol ShowDetailViewControllerDelegate {
 }
 
 public class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
-
+    
     // MARK: - Outlets
     @IBOutlet private(set) var mainScrollView: UIScrollView!
     @IBOutlet private(set) var imageView: UIImageView!
@@ -25,11 +25,10 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
     
     @IBOutlet private(set) var seasonsCollectionView: UICollectionView!
     @IBOutlet private(set) var episodesCollectionView: UICollectionView!
-
+    
     // MARK: - Attributes
     public var show: FeedShow?
     public var delegate: ShowDetailViewControllerDelegate?
-    
     private var task: ImageDataLoaderTask?
     public var imageLoader: ImageDataLoader?
     public var episodeLoader: EpisodeLoaderProtocol?
@@ -48,11 +47,6 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
             self.view.backgroundColor = .black
         } else {
             
-            let url = URL(string: "https://api.tvmaze.com/shows/\(show!.id)/episodes")!
-            let session = URLSession(configuration: .ephemeral)
-            let client = URLSessionHTTPClient(session: session)
-            episodeLoader = EpisodeLoader(url: url, client: client)
-            
             episodeLoader?.load(completion: { result in
                 switch result {
                 case .success(let episodes):
@@ -69,7 +63,7 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
             setEpisodesDataSource()
         }
     }
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,9 +73,14 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
         episodesCollectionView.delegate = self
         
         seasonsCollectionView.register(SeasonCell.self, forCellWithReuseIdentifier: SeasonCell.reuseIdentifier)
-
+        
         let nib = UINib(nibName: "EpisodeCell", bundle: Bundle(for: EpisodeCell.self))
         episodesCollectionView.register(nib, forCellWithReuseIdentifier: "EpisodeCell")
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.tintColor = .systemBlue
     }
     
     private func configureNavigationBar() {
@@ -145,7 +144,7 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
         let number: Int
         let episodes: [ShowEpisode]
     }
-
+    
     var seasonDataSource: UICollectionViewDiffableDataSource<Section, Season>!
     var episodeDataSource: UICollectionViewDiffableDataSource<Section, ShowEpisode>!
     
@@ -155,7 +154,7 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
         snapshot.appendItems(seasons)
         seasonDataSource.apply(snapshot, animatingDifferences: true)
     }
-
+    
     func updateEpisodeDataSource(for season: Season) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ShowEpisode>()
         snapshot.appendSections([.episodes])

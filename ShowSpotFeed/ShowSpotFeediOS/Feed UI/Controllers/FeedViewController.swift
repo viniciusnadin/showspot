@@ -10,6 +10,7 @@ import ShowSpotFeed
 
 public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
+    func didRequestFeedSearch(show: String)
 }
 
 final public class FeedViewController: UICollectionViewController {
@@ -17,34 +18,32 @@ final public class FeedViewController: UICollectionViewController {
     // MARK: - Attributes
     private var loadingControllers = [IndexPath: FeedShowCellController]()
     private var model = [FeedShowCellController]() { didSet { updateDataSource() }}
+    private var feedModel = [FeedShowCellController]()
     public var delegate: FeedViewControllerDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Int, FeedShowCellController>!
-    
-    
     private var showDetailViewController: ShowDetailViewController?
     private let searchController = UISearchController()
+    private var isFirstLoad = true
     
     // MARK: - Life Cycle
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         registerShowCell()
-        configureCollectionView()
         configureSearchController()
+        configureCollectionView()
         setDataSource()
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     public func display(_ cellControllers: [FeedShowCellController]) {
         loadingControllers = [:]
         model = cellControllers
+        feedModel = model
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initialLoad()
         navigationController?.navigationBar.sizeToFit()
-        refresh()
     }
     
     @objc private func refresh() {
@@ -68,9 +67,9 @@ final public class FeedViewController: UICollectionViewController {
     }
     
     private func configureCollectionView() {
-        collectionView.refreshControl = UIRefreshControl()
+        let refreshControl = UIRefreshControl()
+        collectionView.refreshControl = refreshControl
         collectionView.refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
         collectionView.prefetchDataSource = self
     }
     
@@ -83,6 +82,13 @@ final public class FeedViewController: UICollectionViewController {
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
         loadingControllers[indexPath]?.cancelLoad()
         loadingControllers[indexPath] = nil
+    }
+    
+    private func initialLoad() {
+        if isFirstLoad {
+            refresh()
+            isFirstLoad = false
+        }
     }
 }
 
@@ -144,6 +150,7 @@ extension FeedViewController: UISearchBarDelegate {
     }
     
     public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        model = feedModel
         updateDataSource()
     }
     
@@ -154,8 +161,9 @@ extension FeedViewController: UISearchResultsUpdating {
     
     public func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        if searchText == "" { return  }
-//        model = model.filter { $0.model.name.lowercased().contains(searchText.lowercased()) }
+        if searchText == "" { return model = feedModel }
+        delegate?.didRequestFeedSearch(show: searchText)
+        model = feedModel.filter { $0.showName.lowercased().contains(searchText.lowercased()) }
         updateDataSource()
     }
 

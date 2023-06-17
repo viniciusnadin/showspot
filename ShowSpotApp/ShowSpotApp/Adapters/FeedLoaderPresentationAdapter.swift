@@ -10,6 +10,7 @@ import ShowSpotFeed
 import ShowSpotFeediOS
 
 final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
+    
     private let feedLoader: FeedLoaderProtocol
     var presenter: FeedPresenter?
     
@@ -19,7 +20,6 @@ final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
     
     func didRequestFeedRefresh() {
         presenter?.didStartLoadingFeed()
-        
         feedLoader.load { [weak self] result in
             switch result {
             case let .success(feed):
@@ -29,5 +29,9 @@ final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
                 self?.presenter?.didFinishLoadingFeed(with: error)
             }
         }
+    }
+    
+    func didRequestFeedSearch(show: String) {
+        // Implement Show Search
     }
 }

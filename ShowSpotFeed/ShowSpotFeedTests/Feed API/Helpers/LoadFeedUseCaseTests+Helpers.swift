@@ -17,7 +17,7 @@ extension LoadFeedUseCaseTests {
             case let (.success(receivedItems), .success(expectedItems)):
                 XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
 
-            case let (.failure(receivedError), .failure(expectedError)):
+            case let (.failure(receivedError as FeedLoader.Error), .failure(expectedError as FeedLoader.Error)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
 
             default:

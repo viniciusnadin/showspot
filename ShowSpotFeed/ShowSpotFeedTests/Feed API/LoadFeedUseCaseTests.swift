@@ -28,7 +28,7 @@ class LoadFeedUseCaseTests: XCTestCase {
     func test_load_deliversConnectivityErrorOnClientError() {
         let (sut, client) = makeSUT()
 
-        expect(sut, toCompleteWith: .failure(.connectivity), when: {
+        expect(sut, toCompleteWith: failure(.connectivity), when: {
             let clientError = NSError(domain: "Test", code: 0)
             client.complete(with: clientError)
         })
@@ -40,7 +40,7 @@ class LoadFeedUseCaseTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500]
 
         samples.enumerated().forEach { index, code in
-            expect(sut, toCompleteWith: .failure(.invalidData), when: {
+            expect(sut, toCompleteWith: failure(.invalidData), when: {
                 let json = makeItemsJSON([])
                 client.complete(withStatusCode: code, data: json, at: index)
             })
@@ -50,7 +50,7 @@ class LoadFeedUseCaseTests: XCTestCase {
     func test_load_deliversInvalidDataErrorOn200HTTPResponseWithInvalidJSON() {
         let (sut, client) = makeSUT()
 
-        expect(sut, toCompleteWith: .failure(.invalidData), when: {
+        expect(sut, toCompleteWith: failure(.invalidData), when: {
             let invalidJSON = Data("invalid json".utf8)
             client.complete(withStatusCode: 200, data: invalidJSON)
         })
@@ -65,7 +65,7 @@ class LoadFeedUseCaseTests: XCTestCase {
 
         let items = [validItem, invalidItem]
 
-        expect(sut, toCompleteWith: .failure(.invalidData), when: {
+        expect(sut, toCompleteWith: failure(.invalidData), when: {
             let json = makeItemsJSON(items)
             client.complete(withStatusCode: 200, data: json)
         })
@@ -132,6 +132,10 @@ class LoadFeedUseCaseTests: XCTestCase {
         ]
 
         return (item, json)
+    }
+    
+    private func failure(_ error: FeedLoader.Error) -> FeedLoader.Result {
+        return .failure(error)
     }
 
     private func makeItemsJSON(_ items: [[String: Any]]) -> Data {

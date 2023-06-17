@@ -30,6 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [navigationController!]
         navigationController.tabBarItem.image = UIImage(systemName: "house")
+        navigationController.navigationBar.prefersLargeTitles = true
         
         window?.rootViewController = tabBarController
     }
@@ -57,27 +58,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         configuration.requestCachePolicy = .returnCacheDataElseLoad
         let session = URLSession(configuration: configuration)
         return URLSessionHTTPClient(session: session)
-    }
-}
-
-public enum FeedEndpoint {
-    case get
-    
-    public func url(baseURL: URL) -> URL {
-        switch self {
-        case .get:
-            return baseURL.appendingPathComponent("/shows")
-        }
-    }
-}
-
-public enum ShowDetailEndpoint {
-    case get(Int)
-    
-    public func url(baseURL: URL) -> URL {
-        switch self {
-        case let .get(id):
-            return baseURL.appendingPathComponent("/shows/\(id)/episodes")
-        }
     }
 }
