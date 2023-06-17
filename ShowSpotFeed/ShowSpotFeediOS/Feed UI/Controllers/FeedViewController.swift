@@ -14,6 +14,7 @@ final public class FeedViewController: UICollectionViewController {
     private var refreshController: FeedRefreshViewController?
     private var showDetailViewController: ShowDetailViewController?
     private var dataSource: UICollectionViewDiffableDataSource<Section, FeedShow>!
+    private let searchController = UISearchController()
     
     enum Section { case main }
     
@@ -34,11 +35,21 @@ final public class FeedViewController: UICollectionViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Shows"
+        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
         collectionView.prefetchDataSource = self
         
+        configureSearchController()
         registerShowCell()
         setDataSource()
         setRefreshController()
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.sizeToFit()
         refreshController?.refresh()
     }
     
@@ -64,6 +75,15 @@ final public class FeedViewController: UICollectionViewController {
     
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
         cellController(forRowAt: indexPath).cancelLoad()
+    }
+    
+    private func configureSearchController() {
+        searchController.loadViewIfNeeded()
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.enablesReturnKeyAutomatically = false
+        searchController.searchBar.returnKeyType = .search
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
     }
 }
 
@@ -116,4 +136,29 @@ extension FeedViewController: UICollectionViewDelegateFlowLayout {
         let height = self.view.frame.height / 2.8
         return CGSize(width: width, height: height)
     }
+}
+
+// MARK: - SearchViewControler implements UISearchBarDelegate
+extension FeedViewController: UISearchBarDelegate {
+    
+    public func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.text = searchController.searchBar.text
+    }
+    
+    public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        updateDataSource()
+    }
+    
+}
+
+// MARK: - Extensions UISearchResultsUpdating
+extension FeedViewController: UISearchResultsUpdating {
+    
+    public func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        if searchText == "" { return  }
+        model = model.filter { $0.model.name.lowercased().contains(searchText.lowercased()) }
+        updateDataSource()
+    }
+
 }

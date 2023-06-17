@@ -21,10 +21,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let client = URLSessionHTTPClient(session: session)
         let feedLoader = FeedLoader(url: url, client: client)
         let feedImageLoader = FeedImageDataLoader(client: client)
-        
         let feedViewController = FeedUIComposer.feedComposedWith(feedLoader: feedLoader, imageLoader: feedImageLoader)
         let navigationController = UINavigationController(rootViewController: feedViewController)
         
-        window?.rootViewController = navigationController
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [navigationController]
+        
+        window?.rootViewController = tabBarController
     }
 }
