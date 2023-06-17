@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let feedImageLoader = FeedImageDataLoader(client: client)
         
         let feedViewController = FeedUIComposer.feedComposedWith(feedLoader: feedLoader, imageLoader: feedImageLoader)
+        let navigationController = UINavigationController(rootViewController: feedViewController)
         
-        window?.rootViewController = feedViewController
+        window?.rootViewController = navigationController
     }
 }

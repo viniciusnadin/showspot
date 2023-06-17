@@ -72,6 +72,15 @@ extension FeedViewController {
     public override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cancelCellControllerLoad(forRowAt: indexPath)
     }
+    
+    public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let bundle = Bundle(for: type(of: self))
+        let storyboard = UIStoryboard(name: "ShowDetailViewController", bundle: bundle)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ShowDetailViewController") as! ShowDetailViewController
+        vc.showViewModel = model[indexPath.row].model
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - FeedViewController DataSourcePrefetching
