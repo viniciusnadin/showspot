@@ -37,13 +37,16 @@ class ShowDetailViewController: UIViewController, UICollectionViewDelegate {
             }
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadImage()
         setLabelsValues()
         configureNavigationBar()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         mainScrollView.contentInsetAdjustmentBehavior = .never
         
