@@ -34,6 +34,13 @@
         "identifier" : "D5DC4E7A2A3B4216005FF7B9",
         "name" : "ShowSpotFeedTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:ShowSpotFeed.xcodeproj",
+        "identifier" : "D5379FF12A3D29A6007BDAEC",
+        "name" : "ShowSpotFeediOSTests"
+      }
     }
   ],
   "version" : 1

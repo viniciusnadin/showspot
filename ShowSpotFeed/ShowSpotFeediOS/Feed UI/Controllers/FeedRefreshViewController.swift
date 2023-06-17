@@ -9,27 +9,36 @@ import UIKit
 import ShowSpotFeed
 
 final class FeedRefreshViewController: NSObject {
+    
+    // MARK: - Outlets
+    
     private(set) lazy var view: UIRefreshControl = {
         let view = UIRefreshControl()
         view.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return view
     }()
     
+    // MARK: - Attributes
+    
     private let feedLoader: FeedLoader
+    var onRefresh: (([FeedShow]) -> Void)?
+    
+    // MARK: - Initializer
     
     init(feedLoader: FeedLoader) {
         self.feedLoader = feedLoader
     }
     
-    var onRefresh: (([FeedShow]) -> Void)?
-    
+    // MARK: - Actions
     @objc func refresh() {
         view.beginRefreshing()
         feedLoader.load { [weak self] result in
             if let feed = try? result.get() {
                 self?.onRefresh?(feed)
             }
-            self?.view.endRefreshing()
+            DispatchQueue.main.async {
+                self?.view.endRefreshing()
+            }
         }
     }
 }

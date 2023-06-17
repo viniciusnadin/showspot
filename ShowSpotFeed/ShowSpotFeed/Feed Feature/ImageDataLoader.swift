@@ -6,13 +6,12 @@
 //
 
 import Foundation
-import ShowSpotFeed
 
 public protocol FeedImageDataLoaderTask {
     func cancel()
 }
 
-public protocol FeedImageDataLoader {
+public protocol ImageDataLoader {
     typealias Result = Swift.Result<Data, Error>
     
     func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> FeedImageDataLoaderTask

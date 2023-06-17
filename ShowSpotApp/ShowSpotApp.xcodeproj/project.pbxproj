@@ -9,21 +9,40 @@
 /* Begin PBXBuildFile section */
 		D537A02A2A3D4D31007BDAEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D537A0292A3D4D31007BDAEC /* AppDelegate.swift */; };
 		D537A02C2A3D4D31007BDAEC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D537A02B2A3D4D31007BDAEC /* SceneDelegate.swift */; };
-		D537A02E2A3D4D31007BDAEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D537A02D2A3D4D31007BDAEC /* ViewController.swift */; };
 		D537A0312A3D4D31007BDAEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D537A02F2A3D4D31007BDAEC /* Main.storyboard */; };
 		D537A0332A3D4D33007BDAEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D537A0322A3D4D33007BDAEC /* Assets.xcassets */; };
 		D537A0362A3D4D33007BDAEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D537A0342A3D4D33007BDAEC /* LaunchScreen.storyboard */; };
+		D537A0402A3D508C007BDAEC /* ShowSpotFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D537A03E2A3D508C007BDAEC /* ShowSpotFeed.framework */; };
+		D537A0412A3D508C007BDAEC /* ShowSpotFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D537A03E2A3D508C007BDAEC /* ShowSpotFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D537A0422A3D508D007BDAEC /* ShowSpotFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D537A03F2A3D508C007BDAEC /* ShowSpotFeediOS.framework */; };
+		D537A0432A3D508D007BDAEC /* ShowSpotFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D537A03F2A3D508C007BDAEC /* ShowSpotFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D537A0442A3D508D007BDAEC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D537A0412A3D508C007BDAEC /* ShowSpotFeed.framework in Embed Frameworks */,
+				D537A0432A3D508D007BDAEC /* ShowSpotFeediOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D537A0262A3D4D31007BDAEC /* ShowSpotApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShowSpotApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D537A0292A3D4D31007BDAEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D537A02B2A3D4D31007BDAEC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D537A02D2A3D4D31007BDAEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D537A0302A3D4D31007BDAEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D537A0322A3D4D33007BDAEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D537A0352A3D4D33007BDAEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D537A0372A3D4D33007BDAEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D537A03E2A3D508C007BDAEC /* ShowSpotFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShowSpotFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D537A03F2A3D508C007BDAEC /* ShowSpotFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShowSpotFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +50,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D537A0402A3D508C007BDAEC /* ShowSpotFeed.framework in Frameworks */,
+				D537A0422A3D508D007BDAEC /* ShowSpotFeediOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +63,7 @@
 			children = (
 				D537A0282A3D4D31007BDAEC /* ShowSpotApp */,
 				D537A0272A3D4D31007BDAEC /* Products */,
+				D537A03D2A3D508C007BDAEC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +80,21 @@
 			children = (
 				D537A0292A3D4D31007BDAEC /* AppDelegate.swift */,
 				D537A02B2A3D4D31007BDAEC /* SceneDelegate.swift */,
-				D537A02D2A3D4D31007BDAEC /* ViewController.swift */,
 				D537A02F2A3D4D31007BDAEC /* Main.storyboard */,
 				D537A0322A3D4D33007BDAEC /* Assets.xcassets */,
 				D537A0342A3D4D33007BDAEC /* LaunchScreen.storyboard */,
 				D537A0372A3D4D33007BDAEC /* Info.plist */,
 			);
 			path = ShowSpotApp;
+			sourceTree = "<group>";
+		};
+		D537A03D2A3D508C007BDAEC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D537A03E2A3D508C007BDAEC /* ShowSpotFeed.framework */,
+				D537A03F2A3D508C007BDAEC /* ShowSpotFeediOS.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -77,6 +107,7 @@
 				D537A0222A3D4D31007BDAEC /* Sources */,
 				D537A0232A3D4D31007BDAEC /* Frameworks */,
 				D537A0242A3D4D31007BDAEC /* Resources */,
+				D537A0442A3D508D007BDAEC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -138,7 +169,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D537A02E2A3D4D31007BDAEC /* ViewController.swift in Sources */,
 				D537A02A2A3D4D31007BDAEC /* AppDelegate.swift in Sources */,
 				D537A02C2A3D4D31007BDAEC /* SceneDelegate.swift in Sources */,
 			);

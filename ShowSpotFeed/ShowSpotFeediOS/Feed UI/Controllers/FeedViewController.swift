@@ -8,42 +8,54 @@
 import UIKit
 import ShowSpotFeed
 
-final public class FeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
+final public class FeedViewController: UICollectionViewController {
     
-    private var refreshController: FeedRefreshViewController?
-    var model = [FeedShowCellController]() {
-        didSet { updateDataSource() }
-    }
-    enum Section { case main }
-    
+    // MARK: - Attributes
     private var feedLoader: FeedLoader?
     private var imageLoader: FeedImageDataLoader?
+    
     private var tasks = [IndexPath: FeedImageDataLoaderTask]()
+    
+    private var refreshController: FeedRefreshViewController?
     private var dataSource: UICollectionViewDiffableDataSource<Section, FeedShow>!
     
+    enum Section { case main }
+    
+    var model = [FeedShowCellController]() { didSet { updateDataSource() }}
+    
+    // MARK: - Initializer
     convenience init(refreshController: FeedRefreshViewController) {
-        self.init()
+        self.init(collectionViewLayout: UICollectionViewFlowLayout())
         self.refreshController = refreshController
     }
+    
+    // MARK: - Life Cycle
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView.prefetchDataSource = self
         
+        registerShowCell()
+        setDataSource()
+        setRefreshController()
+        refreshController?.refresh()
+    }
+    
+    // MARK: - Private Methods
+    private func registerShowCell() {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: "ShowCell", bundle: bundle)
+        collectionView.register(nib, forCellWithReuseIdentifier: ShowCell.reuseIdentifier)
+    }
+    
+    private func setRefreshController() {
         if #available(iOS 10.0, *) {
             collectionView.refreshControl = refreshController?.view
         } else {
             guard let view = refreshController?.view else { return }
             collectionView.addSubview(view)
         }
-        refreshController?.refresh()
-    }
-    
-    private func setDataSource() {
-        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, feedShow in
-            self.cellController(forRowAt: indexPath).view()
-        })
     }
     
     private func cellController(forRowAt indexPath: IndexPath) -> FeedShowCellController {
@@ -53,11 +65,17 @@ final public class FeedViewController: UICollectionViewController, UICollectionV
     private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
         cellController(forRowAt: indexPath).cancelLoad()
     }
-    
+}
+
+// MARK: - CollectionViewDelegate
+extension FeedViewController {
     public override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         cancelCellControllerLoad(forRowAt: indexPath)
     }
-    
+}
+
+// MARK: - FeedViewController DataSourcePrefetching
+extension FeedViewController: UICollectionViewDataSourcePrefetching {
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach { indexPath in
             cellController(forRowAt: indexPath).preload()
@@ -67,11 +85,30 @@ final public class FeedViewController: UICollectionViewController, UICollectionV
     public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         indexPaths.forEach(cancelCellControllerLoad)
     }
+}
+
+// MARK: - FeedViewController DiffableDataSource
+extension FeedViewController {
     
-    func updateDataSource() {
+    private func setDataSource() {
+        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, feedShow in
+            self.cellController(forRowAt: indexPath).view(collectionView: collectionView, indexPath: indexPath)
+        })
+    }
+    
+    private func updateDataSource() {
         var snapShot = NSDiffableDataSourceSnapshot<Section, FeedShow>()
         snapShot.appendSections([.main])
         snapShot.appendItems(model.map { $0.model })
         dataSource.apply(snapShot, animatingDifferences: true, completion: nil)
+    }
+}
+
+// MARK: - FeedViewController UICollectionViewDelegateFlowLayout
+extension FeedViewController: UICollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = self.view.frame.size.width / 2.1
+        let height = self.view.frame.height / 2.8
+        return CGSize(width: width, height: height)
     }
 }
