@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class FeedLoader {
+public class FeedLoader {
     public typealias Result = Swift.Result<[FeedShow], Error>
     public typealias Completion = (Result) -> Void
     
