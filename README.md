@@ -1,5 +1,8 @@
 # ShowSpot App
 
+## Setup
+Just open the ShowSpot.xcworkspace and run...
+
 ## Show Feed Feature Specs
 * The application should retrieve a list of shows from an API.
 * The shows should be listed using a paging scheme provided by the API.
