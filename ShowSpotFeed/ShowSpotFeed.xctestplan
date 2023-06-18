@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "F387A548-D03B-4635-B6A7-147581BCF0AE",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:ShowSpotFeed.xcodeproj",
+          "identifier" : "D5DC4E702A3B4216005FF7B9",
+          "name" : "ShowSpotFeed"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ShowSpotFeed.xcodeproj",
+        "identifier" : "D5DC4E7A2A3B4216005FF7B9",
+        "name" : "ShowSpotFeedTests"
+      }
+    }
+  ],
+  "version" : 1
+}

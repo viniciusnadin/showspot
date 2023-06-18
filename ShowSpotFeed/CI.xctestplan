@@ -1,0 +1,47 @@
+{
+  "configurations" : [
+    {
+      "id" : "A670DE8D-489E-458B-BF4D-B6333F61EE6C",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:ShowSpotFeed.xcodeproj",
+          "identifier" : "D5DC4E702A3B4216005FF7B9",
+          "name" : "ShowSpotFeed"
+        }
+      ]
+    },
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ShowSpotFeed.xcodeproj",
+        "identifier" : "D500364C2A3B95CF00B0A18F",
+        "name" : "ShowSpotFeedAPIEndToEndTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:ShowSpotFeed.xcodeproj",
+        "identifier" : "D5DC4E7A2A3B4216005FF7B9",
+        "name" : "ShowSpotFeedTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:ShowSpotFeed.xcodeproj",
+        "identifier" : "D5379FF12A3D29A6007BDAEC",
+        "name" : "ShowSpotFeediOSTests"
+      }
+    }
+  ],
+  "version" : 1
+}

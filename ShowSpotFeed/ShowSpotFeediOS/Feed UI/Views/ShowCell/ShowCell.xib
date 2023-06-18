@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ShowCell" id="eb0-1v-F8d" customClass="ShowCell" customModule="ShowSpotFeediOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="175" height="300"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="krF-0W-xcW">
+                <rect key="frame" x="0.0" y="0.0" width="175" height="300"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iHb-vf-LTd" userLabel="Image Container">
+                        <rect key="frame" x="8" y="8" width="159" height="268"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WOS-f0-nyH">
+                                <rect key="frame" x="0.0" y="0.0" width="159" height="268"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="WOS-f0-nyH" secondAttribute="bottom" id="0k0-7K-heh"/>
+                            <constraint firstAttribute="trailing" secondItem="WOS-f0-nyH" secondAttribute="trailing" id="Jl6-id-SAa"/>
+                            <constraint firstItem="WOS-f0-nyH" firstAttribute="top" secondItem="iHb-vf-LTd" secondAttribute="top" id="Vzy-Py-m3b"/>
+                            <constraint firstItem="WOS-f0-nyH" firstAttribute="leading" secondItem="iHb-vf-LTd" secondAttribute="leading" id="l9Q-j0-yQn"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOw-SF-hUP">
+                        <rect key="frame" x="8" y="280" width="159" height="20"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="7om-A2-NHG"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="iHb-vf-LTd" firstAttribute="top" secondItem="krF-0W-xcW" secondAttribute="top" constant="8" id="Adf-7D-Lko"/>
+                    <constraint firstItem="kOw-SF-hUP" firstAttribute="leading" secondItem="krF-0W-xcW" secondAttribute="leading" constant="8" id="JCQ-lq-X5H"/>
+                    <constraint firstAttribute="bottom" secondItem="kOw-SF-hUP" secondAttribute="bottom" id="Jdb-aL-fh1"/>
+                    <constraint firstAttribute="trailing" secondItem="kOw-SF-hUP" secondAttribute="trailing" constant="8" id="OjP-AB-F8I"/>
+                    <constraint firstItem="iHb-vf-LTd" firstAttribute="leading" secondItem="krF-0W-xcW" secondAttribute="leading" constant="8" id="fS0-kk-NYb"/>
+                    <constraint firstAttribute="trailing" secondItem="iHb-vf-LTd" secondAttribute="trailing" constant="8" id="hqP-Ym-F3S"/>
+                    <constraint firstItem="kOw-SF-hUP" firstAttribute="top" secondItem="iHb-vf-LTd" secondAttribute="bottom" constant="4" id="wSd-Bf-9Cy"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="175" height="300"/>
+            <connections>
+                <outlet property="imageContainer" destination="iHb-vf-LTd" id="qvM-vg-2KT"/>
+                <outlet property="imageView" destination="WOS-f0-nyH" id="9BX-YN-Bsn"/>
+                <outlet property="nameLabel" destination="kOw-SF-hUP" id="U8w-Hb-4qy"/>
+            </connections>
+            <point key="canvasLocation" x="134" y="-158"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

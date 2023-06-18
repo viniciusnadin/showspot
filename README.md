@@ -85,7 +85,7 @@ GET /shows
             "original": "https://a-image.url"
         },
         "schedule": {
-             "time": "22:00",
+            "time": "22:00",
             "days": ["a given day", "another given day"]
         },
         "genres": ["a genre", "another genre"],
