@@ -1,5 +1,5 @@
 //
-//  FeedShowPresenter.swift
+//  FeedImagePresenter.swift
 //  ShowSpotFeediOS
 //
 //  Created by Vinicius Nadin on 17/06/23.
@@ -13,7 +13,7 @@ public protocol FeedShowView {
     func display(_ model: FeedShowViewModel<Image>)
 }
 
-public final class FeedShowPresenter<View: FeedShowView, Image> where View.Image == Image {
+public final class FeedImagePresenter<View: FeedShowView, Image> where View.Image == Image {
     private let view: View
     private let imageTransformer: (Data) -> Image?
 

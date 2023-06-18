@@ -19,11 +19,11 @@ public final class FeedShowCellController: FeedShowView {
     let id: AnyHashable
     private let delegate: FeedShowCellControllerDelegate
     private var cell: ShowCell?
-    let selection: () -> Void
+    let selection: (UIImage) -> Void
     var showName: String = ""
     
     // MARK: - Initializer
-    public init(_ id: AnyHashable = UUID(), delegate: FeedShowCellControllerDelegate, selection: @escaping () -> Void) {
+    public init(_ id: AnyHashable = UUID(), delegate: FeedShowCellControllerDelegate, selection: @escaping (UIImage) -> Void) {
         self.id = id
         self.delegate = delegate
         self.selection = selection

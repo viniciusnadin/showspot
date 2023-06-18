@@ -21,7 +21,6 @@ final public class FeedViewController: UICollectionViewController {
     private var feedModel = [FeedShowCellController]()
     public var delegate: FeedViewControllerDelegate?
     private var dataSource: UICollectionViewDiffableDataSource<Int, FeedShowCellController>!
-    private var showDetailViewController: ShowDetailViewController?
     private let searchController = UISearchController()
     private var isFirstLoad = true
     
@@ -99,7 +98,7 @@ extension FeedViewController {
     }
     
     public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        model[indexPath.row].selection()
+        model[indexPath.row].selection((collectionView.cellForItem(at: indexPath) as! ShowCell).imageView.image ?? UIImage())
     }
 }
 
@@ -120,7 +119,7 @@ extension FeedViewController: UICollectionViewDataSourcePrefetching {
 extension FeedViewController {
     
     private func setDataSource() {
-        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, feedShow in
+        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             self.cellController(forRowAt: indexPath).view(collectionView: collectionView, indexPath: indexPath)
         })
     }

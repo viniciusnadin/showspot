@@ -35,9 +35,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = tabBarController
     }
     
-    private func presentShowDetail(for show: FeedShow) {
+    private func presentShowDetail(for show: FeedShow, image: UIImage) {
         let url = ShowDetailEndpoint.get(show.id).url(baseURL: baseURL)
-        let details = ShowDetailUIComposer.showDetailComposedWith(show: show, episodeLoader: makeEpisodeLoader(url: url), imageLoader: makeImageLoader())
+        let details = ShowDetailUIComposer.showDetailComposedWith(
+            image: image, show: show,
+            episodeLoader: makeEpisodeLoader(url: url),
+            imageLoader: makeImageLoader(),
+            selection: presentShowEpisodeDetail
+        )
+        navigationController.pushViewController(details, animated: true)
+    }
+    
+    private func presentShowEpisodeDetail(for show: FeedShow, image: UIImage) {
+        let details = ShowDetailUIComposer.showDetailComposedWith(
+            image: image, show: show, episodeLoader: EmptyEpisodeLoader(),
+            imageLoader: makeImageLoader()
+        )
+        details.isEpisodeView = true
         navigationController.pushViewController(details, animated: true)
     }
     
@@ -58,5 +72,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         configuration.requestCachePolicy = .returnCacheDataElseLoad
         let session = URLSession(configuration: configuration)
         return URLSessionHTTPClient(session: session)
+    }
+}
+
+class EmptyEpisodeLoader: EpisodeLoaderProtocol {
+    func load(completion: @escaping Completion) {
+        completion(.success([]))
     }
 }

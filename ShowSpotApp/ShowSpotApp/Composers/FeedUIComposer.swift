@@ -12,7 +12,7 @@ import ShowSpotFeediOS
 public final class FeedUIComposer {
     private init() {}
     
-    public static func feedComposedWith(feedLoader: FeedLoaderProtocol, imageLoader: ImageDataLoader, selection: @escaping (FeedShow) -> Void = { _ in }) -> FeedViewController {
+    public static func feedComposedWith(feedLoader: FeedLoaderProtocol, imageLoader: ImageDataLoader, selection: @escaping (FeedShow, UIImage) -> Void = { _,_  in }) -> FeedViewController {
         
         let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader:
             MainQueueDispatchDecorator(decoratee: feedLoader))

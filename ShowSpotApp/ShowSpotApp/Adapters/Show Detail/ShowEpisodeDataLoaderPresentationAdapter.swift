@@ -1,5 +1,5 @@
 //
-//  FeedShowDataLoaderPresentationAdapter.swift
+//  ShowEpisodeDataLoaderPresentationAdapter.swift
 //  ShowSpotApp
 //
 //  Created by Vinicius Nadin on 17/06/23.
@@ -9,14 +9,15 @@ import UIKit
 import ShowSpotFeed
 import ShowSpotFeediOS
 
-final class FeedShowDataLoaderPresentationAdapter<View: FeedShowView, Image>: FeedShowCellControllerDelegate where View.Image == Image {
-    private let model: FeedShow
+final class ShowEpisodeDataLoaderPresentationAdapter<View: ShowEpisodeImageView, Image>: ShowEpisodeCellControllerDelegate where View.Image == Image {
+    
+    private let model: ShowEpisode
     private let imageLoader: ImageDataLoader
     private var task: ImageDataLoaderTask?
     
-    var presenter: FeedShowPresenter<View, Image>?
+    var presenter: ShowEpisodeImagePresenter<View, Image>?
     
-    init(model: FeedShow, imageLoader: ImageDataLoader) {
+    init(model: ShowEpisode, imageLoader: ImageDataLoader) {
         self.model = model
         self.imageLoader = imageLoader
     }
@@ -40,3 +41,4 @@ final class FeedShowDataLoaderPresentationAdapter<View: FeedShowView, Image>: Fe
         task?.cancel()
     }
 }
+

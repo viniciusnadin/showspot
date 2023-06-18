@@ -23,8 +23,20 @@ extension WeakRefVirtualProxy: FeedShowView where T: FeedShowView, T.Image == UI
     }
 }
 
+extension WeakRefVirtualProxy: ShowEpisodeImageView where T: ShowEpisodeImageView, T.Image == UIImage {
+    func display(_ model: ShowDetailViewModel<UIImage>) {
+        object?.display(model)
+    }
+}
+
 extension WeakRefVirtualProxy: FeedLoadingView where T: FeedLoadingView {
     func display(_ viewModel: FeedLoadingViewModel) {
+        object?.display(viewModel)
+    }
+}
+
+extension WeakRefVirtualProxy: ShowEpisodeLoadingView where T: ShowEpisodeLoadingView {
+    func display(_ viewModel: ShowEpisodeLoadingViewModel) {
         object?.display(viewModel)
     }
 }

@@ -28,44 +28,24 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
     
     // MARK: - Attributes
     public var show: FeedShow?
+    public var showImage: UIImage?
     public var delegate: ShowDetailViewControllerDelegate?
-    private var task: ImageDataLoaderTask?
-    public var imageLoader: ImageDataLoader?
-    public var episodeLoader: EpisodeLoaderProtocol?
+    private var loadingControllers = [IndexPath: ShowEpisodeCellController]()
+    private var model = [ShowEpisodeCellController]() { didSet { updateDataSource() }}
+    private var seasons = [Int]()
+    public var isEpisodeView = false
     
-    var isShowDetailView: Bool = true
+    private var seasonDataSource: UICollectionViewDiffableDataSource<Int, String>!
+    private var episodeDataSource: UICollectionViewDiffableDataSource<Int, ShowEpisodeCellController>!
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadImage()
-        setLabelsValues()
-        configureNavigationBar()
-        
-        if !isShowDetailView {
-            self.episodesCollectionView.isHidden = true
-            self.seasonsCollectionView.isHidden = true
-            self.view.backgroundColor = .black
-        } else {
-            
-            episodeLoader?.load(completion: { result in
-                switch result {
-                case .success(let episodes):
-                    let group = Dictionary(grouping: episodes, by: { $0.season })
-                    self.seasons = group.map { Season(number: $0.key, episodes: $0.value) }.sorted(by: { $0.number < $1.number})
-                    self.updateSeasonsDataSource()
-                    self.updateEpisodeDataSource(for: self.seasons.first!)
-                case .failure:
-                    break
-                }
-            })
-            
-            setSeasonsDataSource()
-            setEpisodesDataSource()
-        }
-    }
-    
+    // MARK: - Life Cycle
     public override func viewDidLoad() {
         super.viewDidLoad()
+        if isEpisodeView {
+            episodesCollectionView.isHidden = true
+            episodesCollectionView.isHidden = true
+            self.view.backgroundColor = .black
+        }
         
         mainScrollView.contentInsetAdjustmentBehavior = .never
         
@@ -73,9 +53,14 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
         episodesCollectionView.delegate = self
         
         seasonsCollectionView.register(SeasonCell.self, forCellWithReuseIdentifier: SeasonCell.reuseIdentifier)
+        let nib = UINib(nibName: ShowEpisodeCell.reuseIdentifier, bundle: Bundle(for: ShowEpisodeCell.self))
+        episodesCollectionView.register(nib, forCellWithReuseIdentifier: ShowEpisodeCell.reuseIdentifier)
         
-        let nib = UINib(nibName: "EpisodeCell", bundle: Bundle(for: EpisodeCell.self))
-        episodesCollectionView.register(nib, forCellWithReuseIdentifier: "EpisodeCell")
+        seasonsCollectionView.isHidden = true
+        setSeasonsDataSource()
+        setEpisodesDataSource()
+        delegate?.didRequestEpisodeLoad()
+        setLabelsValues()
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -83,6 +68,12 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
         navigationController?.navigationBar.tintColor = .systemBlue
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
+    // MARK: - Private Methods
     private func configureNavigationBar() {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -92,87 +83,93 @@ public class ShowDetailViewController: UIViewController, UICollectionViewDelegat
     
     private func setLabelsValues() {
         nameLabel.text = show?.name
+        imageView.setImageAnimated(self.showImage)
         genresLabel.text = show?.genres.joined(separator: " ・ ")
         scheduleTimeLabel.text = show?.schedule.time
         scheduleDaysLabel.text = show?.schedule.days.reduce("") { $0 + " " + $1}
         summaryLabel.text = show!.summary.removingHTMLTags()
     }
     
-    private func loadImage() {
-        let loadImage = { [weak self, weak imageView] in
-            guard let self = self else { return }
-            
-            self.task = self.imageLoader?.loadImageData(from: self.show!.image) { [weak imageView] result in
-                let data = try? result.get()
-                let image = data.map(UIImage.init) ?? nil
-                DispatchQueue.main.async {
-                    imageView?.image = image
-                }
-            }
-        }
-        
-        loadImage()
+    // MARK: - Public Methods
+    public func display(seasons: [Int], _ cellControllers: [ShowEpisodeCellController]) {
+        loadingControllers = [:]
+        self.seasons = seasons
+        model = cellControllers
     }
     
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == seasonsCollectionView {
-            let season = seasons[indexPath.row]
-            updateEpisodeDataSource(for: season)
-        } else if collectionView == episodesCollectionView {
-            let storyboard = UIStoryboard(name: "ShowDetailViewController", bundle: Bundle(for: ShowDetailViewController.self))
-            let vc = storyboard.instantiateViewController(withIdentifier: "ShowDetailViewController") as! ShowDetailViewController
-            let episode = episodeDataSource.snapshot(for: .episodes).items[indexPath.row]
-            
-            vc.imageLoader = imageLoader
-            vc.show = FeedShow(id: episode.id, name: episode.name, image: episode.image, schedule: FeedShowSchedule(time: "", days: ["Season \(episode.season)", "Episode \(episode.number)"]), genres: [], summary: episode.summary)
-            vc.isShowDetailView = false
-            
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+    private func updateDataSource() {
+        self.updateSeasonsDataSource()
+        self.updateEpisodeDataSource()
     }
     
     // MARK: - Episodes Feature
-    var seasons = [Season]()
-    
-    
-    enum Section {
-        case seasons
-        case episodes
-    }
-    
-    struct Season: Hashable {
-        let number: Int
-        let episodes: [ShowEpisode]
-    }
-    
-    var seasonDataSource: UICollectionViewDiffableDataSource<Section, Season>!
-    var episodeDataSource: UICollectionViewDiffableDataSource<Section, ShowEpisode>!
-    
     func updateSeasonsDataSource() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Season>()
-        snapshot.appendSections([.seasons])
-        snapshot.appendItems(seasons)
+        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(seasons.map { "Season \($0)"}, toSection: 0)
         seasonDataSource.apply(snapshot, animatingDifferences: true)
     }
     
-    func updateEpisodeDataSource(for season: Season) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ShowEpisode>()
-        snapshot.appendSections([.episodes])
-        snapshot.appendItems(season.episodes)
+    func updateEpisodeDataSource() {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, ShowEpisodeCellController>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(model, toSection: 0)
         episodeDataSource.apply(snapshot, animatingDifferences: true)
     }
     
     private func setSeasonsDataSource() {
         seasonDataSource = UICollectionViewDiffableDataSource(collectionView: seasonsCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SeasonCell.reuseIdentifier, for: indexPath) as! SeasonCell
-            cell.configure(season: itemIdentifier.number)
+            cell.configure(season: itemIdentifier)
             return cell
         })
     }
     
     private func setEpisodesDataSource() {
         episodeDataSource = UICollectionViewDiffableDataSource(collectionView: episodesCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            EpisodeCellController(model: itemIdentifier, imageLoader: self.imageLoader!).view(collectionView: collectionView, indexPath: indexPath)
+            self.cellController(forRowAt: indexPath).view(collectionView: collectionView, indexPath: indexPath)
         })
     }
+    
+    private func cellController(forRowAt indexPath: IndexPath) -> ShowEpisodeCellController {
+        let controller = model[indexPath.row]
+        loadingControllers[indexPath] = controller
+        return controller
+    }
+    
+    private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
+        loadingControllers[indexPath]?.cancelLoad()
+        loadingControllers[indexPath] = nil
+    }
 }
+
+// MARK: - CollectionViewDelegate
+extension ShowDetailViewController {
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cancelCellControllerLoad(forRowAt: indexPath)
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        model[indexPath.row].selection((collectionView.cellForItem(at: indexPath) as! ShowEpisodeCell).imageView.image!)
+    }
+}
+
+// MARK: - FeedViewController DataSourcePrefetching
+extension ShowDetailViewController: UICollectionViewDataSourcePrefetching {
+    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach { indexPath in
+            cellController(forRowAt: indexPath).preload()
+        }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach(cancelCellControllerLoad)
+    }
+}
+
+extension ShowDetailViewController: ShowEpisodeLoadingView {
+    public func display(_ viewModel: ShowEpisodeLoadingViewModel) {
+        episodesCollectionView.refreshControl?.update(isRefreshing: viewModel.isLoading)
+    }
+}
+

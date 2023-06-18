@@ -31,8 +31,8 @@ final class SeasonCell: UICollectionViewCell {
     }
     
     // MARK: - ConfigureCell
-    func configure(season: Int) {
-        number.text = "Season \(season)"
+    func configure(season: String) {
+        number.text = season
     }
     
     // MARK: - NumberLabelConstraints
