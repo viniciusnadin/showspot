@@ -228,3 +228,10 @@ GET /shows/{show-id}/episodes
 ## App Architecture
 
 ![](architecture.png)
+
+## App Demo
+
+![](app_demo_01.png)
+![](app_demo_02.png)
+![](app_demo_03.png)
+![](app_demo_04.png)
