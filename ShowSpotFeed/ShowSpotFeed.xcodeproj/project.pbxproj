@@ -207,16 +207,10 @@
 		D5379FEC2A3D29A6007BDAEC /* ShowSpotFeediOS */ = {
 			isa = PBXGroup;
 			children = (
+				D58BA3022AF1A0CD0028FACA /* Show UI */,
 				D537A0192A3D3AB8007BDAEC /* Feed UI */,
 			);
 			path = ShowSpotFeediOS;
-			sourceTree = "<group>";
-		};
-		D5379FF62A3D29A6007BDAEC /* ShowSpotFeediOSTests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ShowSpotFeediOSTests;
 			sourceTree = "<group>";
 		};
 		D537A00A2A3D33F3007BDAEC /* Frameworks */ = {
@@ -240,8 +234,6 @@
 			children = (
 				D537A0102A3D36D2007BDAEC /* FeedShowCellController.swift */,
 				D537A0022A3D2F3F007BDAEC /* FeedViewController.swift */,
-				D537A0552A3D665D007BDAEC /* ShowDetailViewController.swift */,
-				D537A0772A3D80CF007BDAEC /* ShowEpisodeCellController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -339,6 +331,23 @@
 			path = "Episode Presentation";
 			sourceTree = "<group>";
 		};
+		D58BA3022AF1A0CD0028FACA /* Show UI */ = {
+			isa = PBXGroup;
+			children = (
+				D58BA3032AF1A0DE0028FACA /* Controllers */,
+			);
+			path = "Show UI";
+			sourceTree = "<group>";
+		};
+		D58BA3032AF1A0DE0028FACA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D537A0552A3D665D007BDAEC /* ShowDetailViewController.swift */,
+				D537A0772A3D80CF007BDAEC /* ShowEpisodeCellController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		D5DC4E672A3B4216005FF7B9 = {
 			isa = PBXGroup;
 			children = (
@@ -349,7 +358,6 @@
 				D5DC4E7F2A3B4216005FF7B9 /* ShowSpotFeedTests */,
 				D500364E2A3B95CF00B0A18F /* ShowSpotFeedAPIEndToEndTests */,
 				D5379FEC2A3D29A6007BDAEC /* ShowSpotFeediOS */,
-				D5379FF62A3D29A6007BDAEC /* ShowSpotFeediOSTests */,
 				D5DC4E722A3B4216005FF7B9 /* Products */,
 				D537A00A2A3D33F3007BDAEC /* Frameworks */,
 			);
@@ -944,6 +952,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1001,6 +1010,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
